@@ -1,11 +1,11 @@
 import numpy as np
 from modules.equation_parser import EquationParser
-
+from modules.validation import InputValidator
 
 class GaussianQuadrature:
     def __init__(self):
         self.parser = EquationParser()
-        # Pesos y nodos para cuadratura de Gauss-Legendre
+        self.validator = InputValidator()
         self.gauss_data = {
             2: {
                 'nodes': [-0.5773502691896257, 0.5773502691896257],
@@ -29,39 +29,54 @@ class GaussianQuadrature:
     def solve(self, equation_str, a, b, n_points):
         """Cuadratura de Gauss-Legendre"""
         try:
-            if n_points not in self.gauss_data:
-                raise ValueError(f"Número de puntos no soportado: {n_points}")
+            # Validar entradas
+            valid_interval, (a_val, b_val) = self.validator.validate_interval(str(a), str(b))
+            if not valid_interval:
+                raise ValueError(f"Intervalo inválido: {a_val}")
+
+            valid_points, points_val = self.validator.validate_positive_integer(str(n_points), 2)
+            if not valid_points:
+                raise ValueError(f"Número de puntos inválido: {points_val}")
+
+            if points_val not in self.gauss_data:
+                raise ValueError(f"Número de puntos no soportado: {points_val}")
+
+            valid_eq, msg = self.validator.validate_equation(equation_str, ['x'])
+            if not valid_eq:
+                raise ValueError(msg)
 
             result = self.parser.parse_equation(equation_str, ['x'])
             f = result['numpy_function']
 
-            nodes = self.gauss_data[n_points]['nodes']
-            weights = self.gauss_data[n_points]['weights']
+            nodes = self.gauss_data[points_val]['nodes']
+            weights = self.gauss_data[points_val]['weights']
 
-            # Mapear de [-1,1] a [a,b]
-            mapped_nodes = [0.5 * (b - a) * xi + 0.5 * (a + b) for xi in nodes]
+            mapped_nodes = [0.5 * (b_val - a_val) * xi + 0.5 * (a_val + b_val) for xi in nodes]
 
-            # Calcular integral
             integral = 0
-            for i in range(n_points):
+            for i in range(points_val):
                 integral += weights[i] * f(mapped_nodes[i])
 
-            integral *= 0.5 * (b - a)
+            integral *= 0.5 * (b_val - a_val)
 
             return {
+                'success': True,
                 'integral': integral,
-                'method': f'Gauss-Legendre ({n_points} puntos)',
+                'method': f'Gauss-Legendre ({points_val} puntos)',
                 'nodes': list(zip(mapped_nodes, f(np.array(mapped_nodes)))),
                 'original_nodes': nodes,
                 'weights': weights,
-                'function_evaluations': n_points,
-                'error_estimate': self.estimate_error(f, a, b, n_points)
+                'function_evaluations': points_val,
+                'error_estimate': self.estimate_error(f, a_val, b_val, points_val),
+                'message': 'Integral calculada exitosamente'
             }
 
         except Exception as e:
-            raise ValueError(f"Error en cuadratura de Gauss: {str(e)}")
+            return {
+                'success': False,
+                'error': str(e)
+            }
 
     def estimate_error(self, f, a, b, n_points):
         """Estimación simplificada del error"""
-        # Para Gauss-Legendre, el error es proporcional a f^(2n)(ξ)
         return abs((b - a) ** (2 * n_points + 1) / (2 * n_points + 1))

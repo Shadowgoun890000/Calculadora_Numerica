@@ -1,37 +1,351 @@
 :root {
+    /* Colores principales */
     --primary-color: #2c3e50;
     --secondary-color: #3498db;
     --success-color: #27ae60;
     --warning-color: #f39c12;
     --error-color: #e74c3c;
+    --info-color: #17a2b8;
+
+    /* Colores de fondo */
+    --bg-light: #f8f9fa;
+    --bg-white: #ffffff;
+    --bg-sidebar: #f5f7f9;
+
+    /* Bordes y sombras */
+    --border-radius: 8px;
+    --shadow-light: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-medium: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Estilos generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-light);
+}
+
+/* Sidebar principal */
+.sidebar-panel {
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid #dee2e6;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* Paneles de entrada de métodos */
+.method-inputs {
+    background: var(--bg-white);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+    margin-bottom: 1rem;
+    border: 1px solid #e9ecef;
 }
 
 .method-input-panel {
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 8px;
+    background: var(--bg-white);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
     margin-bottom: 1rem;
 }
 
+/* Input de ecuación */
 .equation-input {
     font-family: 'Courier New', monospace;
     font-size: 1.1rem;
+    background-color: #fafafa;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
 }
 
+.equation-input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    background-color: white;
+}
+
+/* Validación de ecuación */
+.equation-validation {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+/* Paneles de resultados */
 .results-panel {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: var(--bg-white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-medium);
+    padding: 1.5rem;
+    height: 100%;
+}
+
+.results-placeholder {
+    background: var(--bg-light);
+    border: 2px dashed #dee2e6;
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    text-align: center;
+    color: #6c757d;
+}
+
+.results-success {
+    background: var(--bg-white);
+    border-left: 4px solid var(--success-color);
+    border-radius: var(--border-radius);
     padding: 1.5rem;
 }
 
-.interactive-plot {
-    height: 400px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+/* Tarjetas */
+.card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.card-header {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+}
+
+.card-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* Información del método */
+.method-info {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-top: 1rem;
+}
+
+.method-info h5 {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.method-details {
+    background: var(--bg-white);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+}
+
+/* Ejemplos */
+.example-card {
+    background: var(--bg-white);
+    border: 1px solid #e9ecef;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.example-card:hover {
+    border-color: var(--secondary-color);
+    box-shadow: var(--shadow-medium);
+}
+
+.example-card .card-header {
+    background: var(--info-color);
+    color: white;
+    font-size: 0.9rem;
+}
+
+/* Gráficas */
+.interactive-plot {
+    height: 460px;
+    border: 1px solid #e9ecef;
+    border-radius: var(--border-radius);
+    background: var(--bg-white);
+}
+
+/* Botones */
 .btn-primary {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #1a252f;
+    border-color: #1a252f;
+    transform: translateY(-1px);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 500;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Estados de validación */
+.text-success {
+    color: var(--success-color) !important;
+    font-weight: 500;
+}
+
+.text-danger {
+    color: var(--error-color) !important;
+    font-weight: 500;
+}
+
+/* Alertas */
+.alert {
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 1rem 1.5rem;
+}
+
+.alert-danger {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--error-color);
+    border-left: 4px solid var(--error-color);
+}
+
+.alert-success {
+    background-color: rgba(39, 174, 96, 0.1);
+    color: var(--success-color);
+    border-left: 4px solid var(--success-color);
+}
+
+/* Navegación y layout */
+.navbar {
+    box-shadow: var(--shadow-medium);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.footer {
+    background-color: var(--primary-color);
+    color: white;
+    margin-top: auto;
+}
+
+/* Scroll personalizado */
+.overflow-auto {
+    scrollbar-width: thin;
+    scrollbar-color: var(--secondary-color) var(--bg-light);
+}
+
+.overflow-auto::-webkit-scrollbar {
+    width: 6px;
+}
+
+.overflow-auto::-webkit-scrollbar-track {
+    background: var(--bg-light);
+    border-radius: 3px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 3px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb:hover {
+    background: #2980b9;
+}
+
+/* Inputs numéricos y select */
+.input-numeric, .input-select, .input-text {
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.input-numeric:focus, .input-select:focus, .input-text:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+/* Textarea para matrices */
+.input-textarea {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    background-color: #fafafa;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.input-textarea:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    background-color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar-panel {
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .method-inputs {
+        padding: 1rem;
+    }
+
+    .card-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .equation-input {
+        font-size: 1rem;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.results-success, .method-details, .example-card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Estados de carga */
+.calculating {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.calculating::after {
+    content: "Calculando...";
+    display: block;
+    text-align: center;
+    color: var(--secondary-color);
+    font-weight: 600;
 }

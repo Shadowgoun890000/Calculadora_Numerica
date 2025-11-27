@@ -1,3 +1,4 @@
+# utils/formatters.py
 import numpy as np
 import sympy as sp
 
@@ -108,11 +109,92 @@ class ResultFormatter:
     @staticmethod
     def format_error_message(error):
         """Formatea mensajes de error"""
-        if "division by zero" in str(error).lower():
+        error_str = str(error).lower()
+        if "division by zero" in error_str:
             return "Error: División por cero"
-        elif "singular" in str(error).lower():
+        elif "singular" in error_str:
             return "Error: Matriz singular o mal condicionada"
-        elif "converge" in str(error).lower():
+        elif "converge" in error_str:
             return "Error: El método no converge"
+        elif "root" in error_str and "found" not in error_str:
+            return "Error: No se pudo encontrar la raíz"
+        elif "invalid" in error_str:
+            return "Error: Entrada inválida"
+        elif "dimension" in error_str:
+            return "Error: Dimensiones incorrectas"
         else:
+            # Acortar mensajes de error muy largos
+            if len(error_str) > 100:
+                return f"Error: {error_str[:100]}..."
             return f"Error: {str(error)}"
+
+    @staticmethod
+    def format_method_result(result, method_name):
+        """Formatea el resultado completo de un método numérico"""
+        if not result.get('success', False):
+            error_msg = ResultFormatter.format_error_message(result.get('error', 'Error desconocido'))
+            return {
+                'success': False,
+                'error': error_msg,
+                'formatted_output': f"**{method_name}**\n\n{error_msg}"
+            }
+
+        output_lines = [f"**{method_name}**", ""]
+
+        # Información básica del método
+        if 'root' in result:
+            output_lines.append(f"**Raíz encontrada:** {ResultFormatter.format_number(result['root'])}")
+
+        if 'integral' in result:
+            output_lines.append(f"**Valor de la integral:** {ResultFormatter.format_number(result['integral'])}")
+
+        if 'solution' in result:
+            if isinstance(result['solution'], (list, np.ndarray)):
+                output_lines.append(f"**Solución:** {ResultFormatter.format_matrix(result['solution'])}")
+            else:
+                output_lines.append(f"**Solución:** {ResultFormatter.format_number(result['solution'])}")
+
+        # Métricas de convergencia
+        if 'converged' in result:
+            status = "✓ Convergió" if result['converged'] else "✖ No convergió"
+            output_lines.append(f"**Estado:** {status}")
+
+        if 'final_error' in result:
+            output_lines.append(f"**Error final:** {ResultFormatter.format_number(result['final_error'])}")
+
+        if 'iterations_count' in result:
+            output_lines.append(f"**Iteraciones:** {result['iterations_count']}")
+
+        if 'function_calls' in result:
+            output_lines.append(f"**Evaluaciones de función:** {result['function_calls']}")
+
+        # Información adicional específica del método
+        if 'estimated_multiplicity' in result:
+            output_lines.append(f"**Multiplicidad estimada:** {result['estimated_multiplicity']}")
+
+        if 'error_estimate' in result:
+            output_lines.append(f"**Error estimado:** {ResultFormatter.format_number(result['error_estimate'])}")
+
+        if 'message' in result:
+            output_lines.append(f"**Mensaje:** {result['message']}")
+
+        # Tabla de iteraciones si existe
+        if 'iterations' in result and result['iterations']:
+            output_lines.append("\n**Tabla de Iteraciones:**")
+            headers = list(result['iterations'][0].keys())
+            iteration_table = ResultFormatter.format_iteration_table(result['iterations'], headers)
+            output_lines.append(f"```\n{iteration_table}\n```")
+
+        # Pasos de eliminación si existen
+        if 'steps' in result and result['steps']:
+            output_lines.append("\n**Pasos del método:**")
+            for i, step in enumerate(result['steps']):
+                output_lines.append(f"\n**Paso {i + 1}:** {step.get('description', '')}")
+                if 'matrix' in step:
+                    output_lines.append(f"```\n{ResultFormatter.format_matrix(step['matrix'])}\n```")
+
+        return {
+            'success': True,
+            'formatted_output': "\n".join(output_lines),
+            'raw_result': result
+        }

@@ -1,0 +1,56 @@
+/* Tema Claro (por defecto) */
+.theme-light {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --text-primary: #2c3e50;
+    --text-secondary: #6c757d;
+    --border-color: #dee2e6;
+}
+
+/* Tema Oscuro */
+.theme-dark {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --border-color: #404040;
+}
+
+.theme-dark .card {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.theme-dark .equation-input,
+.theme-dark .input-numeric,
+.theme-dark .input-select,
+.theme-dark .input-text,
+.theme-dark .input-textarea {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+/* Tema Azul */
+.theme-blue {
+    --primary-color: #1565c0;
+    --secondary-color: #42a5f5;
+    --success-color: #2e7d32;
+    --bg-light: #e3f2fd;
+}
+
+.theme-blue .navbar {
+    background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
+}
+
+/* Tema Verde */
+.theme-green {
+    --primary-color: #1b5e20;
+    --secondary-color: #4caf50;
+    --success-color: #2e7d32;
+    --bg-light: #e8f5e8;
+}
+
+.theme-green .navbar {
+    background: linear-gradient(135deg, #1b5e20 0%, #4caf50 100%);
+}

@@ -1,0 +1,4 @@
+numpy~=2.3.5
+sympy~=1.14.0
+plotly~=6.5.0
+shiny~=1.5.0

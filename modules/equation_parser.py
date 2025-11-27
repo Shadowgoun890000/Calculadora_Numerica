@@ -10,7 +10,7 @@ class EquationParser:
             'asin': 'asin', 'acos': 'acos', 'atan': 'atan',
             'sinh': 'sinh', 'cosh': 'cosh', 'tanh': 'tanh',
             'exp': 'exp', 'log': 'log', 'ln': 'log',
-            'sqrt': 'sqrt', 'abs': 'abs'
+            'sqrt': 'sqrt', 'abs': 'abs', 'pi': 'pi', 'e': 'e'
         }
 
     def parse_equation(self, equation_str, variables):
