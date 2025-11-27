@@ -1,0 +1,37 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --error-color: #e74c3c;
+}
+
+.method-input-panel {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.equation-input {
+    font-family: 'Courier New', monospace;
+    font-size: 1.1rem;
+}
+
+.results-panel {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+}
+
+.interactive-plot {
+    height: 400px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
